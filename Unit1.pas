@@ -131,7 +131,12 @@ begin
          until not(RegEx.MatchAgain);
       end;
    for i:=0 to k - 1 do
-      strMemo := strMemo + variablesArray[i].variable + ' [' + IntToStr(variablesArray[i].factualHints) + ':' + IntToStr((variablesArray[i].possibleHints + 1) * countFunction) + '] ' + #13#10;
+      begin
+         if ((variablesArray[i].possibleHints + 1) * countFunction > 0) and (variablesArray[i].factualHints > 0) then
+            strMemo := strMemo + variablesArray[i].variable + ' [' + IntToStr(variablesArray[i].factualHints) + ':' + IntToStr((variablesArray[i].possibleHints + 1) * countFunction) + '] ' + ' R = ' + FloatToStrF((variablesArray[i].factualHints / ((variablesArray[i].possibleHints + 1) * countFunction)), ffGeneral, 1, 2) + #13#10
+         else
+            strMemo := strMemo + variablesArray[i].variable + ' [' + IntToStr(variablesArray[i].factualHints) + ':' + IntToStr((variablesArray[i].possibleHints + 1) * countFunction) + '] ' + ' R = 0' + #13#10;
+      end;
    for i:=0 to Length(variablesInFunction) - 1 do
       strMemo := strMemo + 'In Func: ' + variablesInFunction[i].variable + ' [' + IntToStr(variablesInFunction[i].countHints - 1) + '] ' + #13#10;
    mmo2.Text := mmo2.Text + strMemo + 'Количество функций: ' + IntToStr(countFunction) + #13#10;
